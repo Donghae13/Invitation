@@ -22,7 +22,6 @@ body {
   color: var(--accent);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  position: relative;
 }
 
 .wrap {
@@ -35,20 +34,12 @@ body {
   border-radius: var(--radius);
   text-align: center;
   box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+  overflow: hidden; /* Important: clip balloons/confetti inside */
 }
 
 header {margin-bottom: 20px;}
-h1 {
-  font-family: 'Great Vibes', cursive;
-  font-size: 36px;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-p.lead {
-  font-size: 16px;
-  color: var(--muted);
-  letter-spacing: 0.5px;
-}
+h1 { font-family: 'Great Vibes', cursive; font-size: 36px; letter-spacing: 1px; margin-bottom: 6px; }
+p.lead { font-size: 16px; color: var(--muted); letter-spacing: 0.5px; }
 
 .card {
   background: #ffffffcc;
@@ -80,7 +71,7 @@ p, .address, .message {line-height: 1.8; color: var(--muted);}
 footer {margin-top: 24px; color: var(--muted); font-size: 14px;}
 
 /* Confetti piece */
-.confetti-piece {position: absolute; width: 8px; height: 8px; opacity: 0.8; border-radius: 50%;}
+.confetti-piece {position: absolute; width: 8px; height: 8px; opacity: 0.8; border-radius: 50%; pointer-events:none;}
 
 /* Balloons */
 .balloon {
@@ -99,9 +90,11 @@ footer {margin-top: 24px; color: var(--muted); font-size: 14px;}
 </style>
 </head>
 <body>
-<canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
 
 <div class="wrap">
+  <!-- Canvas for confetti inside the invitation -->
+  <canvas id="confettiCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
   <header>
     <h1>លិខិតអញ្ជើញ</h1>
     <p class="lead">Hello — I'm <strong>Hour sad</strong></p>
@@ -109,8 +102,8 @@ footer {margin-top: 24px; color: var(--muted); font-size: 14px;}
 
   <div class="card fade-slide">
     <h2>សូមអញ្ជើញ</h2>
-    <p>លិខិតអញ្ជើញចូលរួមពិសាអាហារសាមគ្គីអបអរសាទរលោក​ សេងហួ​​ ដែលជាសមាជិករបស់សមាគមន៍គ្រែស្នេហ៏ 
-    <p class="address">ដែលនឹងប្រព្រឹត្តទៅនាថ្ងៃអាទិត្យ ទី៥ ខែតុលា ឆ្នាំ២០២៥​​ </br> វេលាម៉ោង ១៨:៣០នាទី នៅអគារ E និង F​</p>
+    <p>លិខិតអញ្ជើញចូលរួមពិសាអាហារសាមគ្គីអបអរសាទរលោក​ សេងហួ​​ ដែលជាសមាជិករបស់សមាគមន៍គ្រែស្នេហ៏ </p>
+    <p class="address">ដែលនឹងប្រព្រឹត្តទៅនាថ្ងៃអាទិត្យ ទី៥ ខែតុលា ឆ្នាំ២០២៥​​ <br> វេលាម៉ោង ១៨:៣០នាទី នៅអគារ E និង F​</p>
   </div>
 
   <div class="card fade-slide">
@@ -134,22 +127,28 @@ footer {margin-top: 24px; color: var(--muted); font-size: 14px;}
     </div>
   </div>
 
-
   <footer>
     <p>Made with ☕ • Senghou </p>
   </footer>
 </div>
 
 <script>
-// Confetti background
-const canvas=document.getElementById('confettiCanvas');
-const ctx=canvas.getContext('2d');
-let W=canvas.width=window.innerWidth;
-let H=canvas.height=window.innerHeight;
-const pieces=[];
-const colors=['#FFB6C1','#B0E0E6','#FFE4E6','#FFFACD','#E0FFFF'];
-for(let i=0;i<100;i++){
-  pieces.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*6+2,d:Math.random()*50,color: colors[Math.floor(Math.random()*colors.length)],tilt: Math.random()*10-10});
+// Confetti inside invitation
+const canvas = document.getElementById('confettiCanvas');
+const ctx = canvas.getContext('2d');
+let W = canvas.width = canvas.offsetWidth;
+let H = canvas.height = canvas.offsetHeight;
+const pieces = [];
+const colors = ['#FFB6C1','#B0E0E6','#FFE4E6','#FFFACD','#E0FFFF'];
+for(let i=0;i<50;i++){
+  pieces.push({
+    x: Math.random()*W,
+    y: Math.random()*H,
+    r: Math.random()*6+2,
+    d: Math.random()*50,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    tilt: Math.random()*10-10
+  });
 }
 function draw(){ 
   ctx.clearRect(0,0,W,H);
@@ -161,9 +160,9 @@ function draw(){
   });
   update();
 }
-let angle=0;
+let angle = 0;
 function update(){
-  angle+=0.01;
+  angle += 0.01;
   pieces.forEach(p=>{
     p.y += (Math.cos(angle+p.d)+1+p.r/2);
     p.x += Math.sin(angle);
@@ -172,30 +171,40 @@ function update(){
 }
 function animate(){ draw(); requestAnimationFrame(animate); }
 animate();
-window.addEventListener('resize',()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
+window.addEventListener('resize', ()=>{
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+});
 
-// Floating balloons
+// Balloons inside invitation
 function createBalloon(){
-  const b=document.createElement('div'); b.className='balloon';
-  const size = 30 + Math.random()*20; b.style.width=size+'px'; b.style.height=size*1.5+'px';
+  const b = document.createElement('div'); 
+  b.className = 'balloon';
+  const size = 30 + Math.random()*20; 
+  b.style.width = size+'px'; 
+  b.style.height = size*1.5+'px';
   b.style.opacity = 0.5+Math.random()*0.5;
-  b.style.left=Math.random()*90+'%'; b.style.bottom='-80px';
-  document.body.appendChild(b);
-  const floatSpeed = 5000+Math.random()*5000; const horizontalDrift = (Math.random()-0.5)*100;
-  const startLeft = b.offsetLeft; let startTime=null;
+  b.style.left = Math.random()*90+'%'; 
+  b.style.bottom = '-80px';
+  document.querySelector('.wrap').appendChild(b);
+  const floatSpeed = 5000 + Math.random()*5000; 
+  const horizontalDrift = (Math.random()-0.5)*100;
+  const startLeft = b.offsetLeft; 
+  let startTime = null;
   function animateBalloon(timestamp){
-    if(!startTime) startTime=timestamp;
-    const fraction=(timestamp-startTime)/floatSpeed;
-    b.style.bottom=(-80+fraction*(window.innerHeight+100))+'px';
-    b.style.left=startLeft+horizontalDrift*fraction+'px';
-    b.style.transform=`rotate(${fraction*360}deg)`;
-    if(fraction<1) requestAnimationFrame(animateBalloon); else b.remove();
+    if(!startTime) startTime = timestamp;
+    const fraction = (timestamp - startTime)/floatSpeed;
+    b.style.bottom = (-80 + fraction*(canvas.offsetHeight+100))+'px';
+    b.style.left = startLeft + horizontalDrift*fraction+'px';
+    b.style.transform = `rotate(${fraction*360}deg)`;
+    if(fraction<1) requestAnimationFrame(animateBalloon);
+    else b.remove();
   }
   requestAnimationFrame(animateBalloon);
 }
 setInterval(createBalloon,800);
 
-// Scroll fade-slide animation
+// Scroll fade-slide
 const faders=document.querySelectorAll('.fade-slide');
 const observer=new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('show'); });
@@ -207,11 +216,13 @@ function confettiBurst(x,y){
   for(let i=0;i<30;i++){
     const c=document.createElement('div');
     c.className='confetti-piece';
-    c.style.left=x+'px'; c.style.top=y+'px';
+    c.style.left=x+'px'; 
+    c.style.top=y+'px';
     c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    document.body.appendChild(c);
+    document.querySelector('.wrap').appendChild(c);
     const angle=Math.random()*2*Math.PI;
-    const speed=2+Math.random()*3; let posX=0,posY=0;
+    const speed=2+Math.random()*3; 
+    let posX=0,posY=0;
     const anim=setInterval(()=>{
       posX+=Math.cos(angle)*speed; posY+=Math.sin(angle)*speed+0.5;
       c.style.transform=`translate(${posX}px,${posY}px) rotate(${angle*50}rad)`;
@@ -220,17 +231,21 @@ function confettiBurst(x,y){
   }
 }
 document.getElementById('rsvp').addEventListener('click', e=>{
-  const rect=e.target.getBoundingClientRect();
-  confettiBurst(rect.left+rect.width/2,rect.top+rect.height/2);
+  const rect = e.target.getBoundingClientRect();
+  const wrapRect = document.querySelector('.wrap').getBoundingClientRect();
+  confettiBurst(rect.left-wrapRect.left+rect.width/2, rect.top-wrapRect.top+rect.height/2);
   localStorage.setItem('rsvp_state','yes');
-  e.target.textContent='You RSVP’d ✓'; e.target.disabled=true;
+  e.target.textContent='You RSVP’d ✓'; 
+  e.target.disabled=true;
 });
 document.getElementById('openMaps').addEventListener('click', ()=>{
   window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('123 Riverside Ave, Phnom Penh, Cambodia'),'_blank');
 });
 document.getElementById('messageBtn').addEventListener('click', ()=>{
   const mail = prompt('Type a short message to the host:');
-  if(mail){ const subject=encodeURIComponent("I'd like to join"); const body=encodeURIComponent(mail);
+  if(mail){ 
+    const subject=encodeURIComponent("I'd like to join"); 
+    const body=encodeURIComponent(mail);
     window.location.href=`mailto:your.email@example.com?subject=${subject}&body=${body}`;
   }
 });

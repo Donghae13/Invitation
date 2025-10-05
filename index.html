@@ -8,9 +8,6 @@
 <style>
 :root {
   --bg: linear-gradient(135deg, #fffbf5, #f0f8ff, #fef6fb);
-  --card: #ffffff;
-  --accent: #0f1724;
-  --muted: #6b7280;
   --accent-2: #0ea5a4;
   --radius: 20px;
 }
@@ -19,52 +16,30 @@ body {
   margin:0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
   background: var(--bg);
-  color: var(--accent);
-  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 .wrap {
-  width: 90%;           /* Expand width to 90% of viewport */
-  max-width: 1200px;    /* Optional: limit maximum width */
+  width: 90%;
+  max-width: 1200px;
   margin: 36px auto;
-  padding: 40px;
+  padding: 50px;
   position: relative;
   z-index: 2;
   background: linear-gradient(145deg, #fff8f0, #f0fcff);
   border-radius: var(--radius);
   text-align: center;
   box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-  overflow: hidden;     /* Clip balloons/confetti inside */
+  overflow: hidden;
 }
-
 
 header {margin-bottom: 20px;}
 h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 48px;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
   color: #ff6f91;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-  position: relative;
 }
-h1::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #ff6f91;
-  margin: 8px auto 0;
-  border-radius: 2px;
-  animation: pulse 1.5s infinite alternate;
-}
-@keyframes pulse {
-  0% { width: 40px; opacity: 0.6; }
-  100% { width: 60px; opacity: 1; }
-}
-p.lead { font-size: 16px; color: var(--muted); letter-spacing: 0.5px; }
-
 .card {
   background: #ffffffcc;
   border-radius: var(--radius);
@@ -74,88 +49,62 @@ p.lead { font-size: 16px; color: var(--muted); letter-spacing: 0.5px; }
 }
 .card.fade-slide {opacity:0; transform: translateY(30px); transition: all .8s ease-out;}
 .card.fade-slide.show {opacity:1; transform: translateY(0);}
-
-h2, h3 {font-family: 'Great Vibes', cursive; margin-bottom: 10px; letter-spacing: 1px;}
-p, .address, .message {line-height: 1.8; color: var(--muted);}
-
 .cta {display:flex; justify-content:center; gap:12px; margin-top:16px;}
-.btn {
-  padding: 10px 20px;
-  border-radius: 14px;
-  border: 1px solid rgba(15,23,36,0.08);
-  background: transparent;
-  cursor: pointer;
-  font-weight:600;
-  transition: all .3s ease;
-}
-.btn:hover {transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.08);}
+.btn {padding: 10px 20px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); background: transparent; cursor: pointer; font-weight:600; transition: all .3s ease;}
+.btn:hover {transform: scale(1.05);}
 .btn.primary {background: var(--accent-2); color:white; border:0;}
-
 .map {width:100%; height:220px; border-radius:14px; overflow:hidden; border:1px solid rgba(2,6,23,0.04); margin-top:10px;}
-footer {margin-top: 24px; color: var(--muted); font-size: 14px;}
-
-/* Confetti piece */
-.confetti-piece {position: absolute; width: 8px; height: 8px; opacity: 0.8; border-radius: 50%; pointer-events:none;}
+footer {margin-top: 24px; color: #6b7280; font-size: 14px;}
 
 /* Balloons */
 .balloon {
   position: absolute;
-  width: 40px;
-  height: 60px;
+  width: 40px; height: 60px;
   border-radius: 50% 50% 50% 50%;
   border: 2px solid #ffdce0;
-  opacity: 0.8;
-  pointer-events: none;
-  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  background: linear-gradient(45deg,#ff9a9e,#fad0c4);
+  opacity: 0.8; pointer-events:none;
   animation: float 6s ease-in-out infinite;
 }
-@keyframes float {
-  0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-30px) rotate(180deg); }
-  100% { transform: translateY(0) rotate(360deg); }
-}
+@keyframes float {0% {transform:translateY(0) rotate(0deg);}50%{transform:translateY(-30px) rotate(180deg);}100%{transform:translateY(0) rotate(360deg);}}
 
+/* Heart shape using CSS */
 .heart {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: red;
+  position:absolute;
+  width:20px; height:20px;
+  background:red;
   transform: rotate(-45deg);
-  opacity: 0.8;
-  pointer-events: none;
+  opacity:0.8;
+  pointer-events:none;
   animation: floatHeart 5s linear infinite;
 }
-
-.heart::before,
-.heart::after {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: red;
-  border-radius: 50%;
+.heart::before, .heart::after {
+  content:"";
+  position:absolute;
+  width:20px; height:20px;
+  background:red;
+  border-radius:50%;
 }
-
-.heart::before { top: -10px; left: 0; }
-.heart::after { top: 0; left: 10px; }
-
+.heart::before {top:-10px; left:0;}
+.heart::after {top:0; left:10px;}
 @keyframes floatHeart {
-  0% { transform: translateY(0) rotate(-45deg) scale(1); opacity:0.7; }
-  50% { transform: translateY(-60px) rotate(-25deg) scale(1.2); opacity:1; }
-  100% { transform: translateY(-120px) rotate(-45deg) scale(1); opacity:0; }
+  0% {transform: translateY(0) rotate(-45deg) scale(1); opacity:0.7;}
+  50%{transform:translateY(-60px) rotate(-25deg) scale(1.2); opacity:1;}
+  100%{transform:translateY(-120px) rotate(-45deg) scale(1); opacity:0;}
 }
 
-
-@media(max-width:760px){
-  .wrap{padding:20px;}
-  h1{font-size:28px;}
+/* Fireworks */
+.firework {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
 }
+
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <!-- Canvas for confetti inside the invitation -->
   <canvas id="confettiCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 
   <header>
@@ -196,144 +145,94 @@ footer {margin-top: 24px; color: var(--muted); font-size: 14px;}
 </div>
 
 <script>
-// Confetti inside invitation
-const canvas = document.getElementById('confettiCanvas');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = canvas.offsetWidth;
-let H = canvas.height = canvas.offsetHeight;
-const pieces = [];
-const colors = ['#FFB6C1','#B0E0E6','#FFE4E6','#FFFACD','#E0FFFF'];
+// ------------------ Confetti ------------------
+const canvas=document.getElementById('confettiCanvas');
+const ctx=canvas.getContext('2d');
+let W=canvas.width=canvas.offsetWidth;
+let H=canvas.height=canvas.offsetHeight;
+const pieces=[];
+const colors=['#FFB6C1','#B0E0E6','#FFE4E6','#FFFACD','#E0FFFF'];
 for(let i=0;i<50;i++){
-  pieces.push({
-    x: Math.random()*W,
-    y: Math.random()*H,
-    r: Math.random()*6+2,
-    d: Math.random()*50,
-    color: colors[Math.floor(Math.random()*colors.length)],
-    tilt: Math.random()*10-10
-  });
+  pieces.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*6+2,d:Math.random()*50,color: colors[Math.floor(Math.random()*colors.length)]});
 }
-function createHeart() {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-
-  const size = 15 + Math.random() * 15;
-  heart.style.width = size + 'px';
-  heart.style.height = size + 'px';
-
-  // Random start position inside wrap
-  const wrap = document.querySelector('.wrap');
-  const wrapWidth = wrap.offsetWidth;
-  heart.style.left = Math.random() * (wrapWidth - size) + 'px';
-  heart.style.bottom = '0px';
-  wrap.appendChild(heart);
-
-  // Remove after animation
-  setTimeout(() => heart.remove(), 5000 + Math.random() * 2000);
-}
-
-// Create a heart every 600ms
-setInterval(createHeart, 600);
-
-function draw(){ 
-  ctx.clearRect(0,0,W,H);
-  pieces.forEach(p=>{
-    ctx.beginPath();
-    ctx.fillStyle=p.color;
-    ctx.arc(p.x,p.y,p.r,0,2*Math.PI);
-    ctx.fill();
-  });
-  update();
-}
-let angle = 0;
-function update(){
-  angle += 0.01;
-  pieces.forEach(p=>{
-    p.y += (Math.cos(angle+p.d)+1+p.r/2);
-    p.x += Math.sin(angle);
-    if(p.y>H){ p.x=Math.random()*W; p.y=0; }
-  });
-}
+function draw(){ ctx.clearRect(0,0,W,H); pieces.forEach(p=>{ctx.beginPath();ctx.fillStyle=p.color;ctx.arc(p.x,p.y,p.r,0,2*Math.PI);ctx.fill();}); update();}
+let angle=0;
+function update(){ angle+=0.01; pieces.forEach(p=>{ p.y+=(Math.cos(angle+p.d)+1+p.r/2); p.x+=Math.sin(angle); if(p.y>H){p.x=Math.random()*W; p.y=0;} }); }
 function animate(){ draw(); requestAnimationFrame(animate); }
 animate();
-window.addEventListener('resize', ()=>{
-  W = canvas.width = canvas.offsetWidth;
-  H = canvas.height = canvas.offsetHeight;
-});
+window.addEventListener('resize',()=>{ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; });
 
-// Balloons inside invitation
-function createBalloon(){
-  const b = document.createElement('div'); 
-  b.className = 'balloon';
-  const size = 30 + Math.random()*20; 
-  b.style.width = size+'px'; 
-  b.style.height = size*1.5+'px';
-  b.style.opacity = 0.5+Math.random()*0.5;
-  b.style.left = Math.random()*90+'%'; 
-  b.style.bottom = '-80px';
-  document.querySelector('.wrap').appendChild(b);
-  const floatSpeed = 5000 + Math.random()*5000; 
-  const horizontalDrift = (Math.random()-0.5)*100;
-  const startLeft = b.offsetLeft; 
-  let startTime = null;
-  function animateBalloon(timestamp){
-    if(!startTime) startTime = timestamp;
-    const fraction = (timestamp - startTime)/floatSpeed;
-    b.style.bottom = (-80 + fraction*(canvas.offsetHeight+100))+'px';
-    b.style.left = startLeft + horizontalDrift*fraction+'px';
-    b.style.transform = `rotate(${fraction*360}deg)`;
-    if(fraction<1) requestAnimationFrame(animateBalloon);
-    else b.remove();
-  }
-  requestAnimationFrame(animateBalloon);
-}
+// ------------------ Balloons ------------------
+function createBalloon(){ const b=document.createElement('div'); b.className='balloon';
+b.style.width=(30+Math.random()*20)+'px'; b.style.height=(45+Math.random()*30)+'px';
+b.style.left=Math.random()*80+'%'; b.style.bottom='-60px';
+document.querySelector('.wrap').appendChild(b);
+let startTime=null; const speed=5000+Math.random()*5000; const drift=(Math.random()-0.5)*100; const startX=b.offsetLeft;
+function animateBalloon(ts){ if(!startTime) startTime=ts; const f=(ts-startTime)/speed; b.style.bottom=(-60+f*(H+100))+'px'; b.style.left=startX+drift*f+'px'; b.style.transform=`rotate(${f*360}deg)`; if(f<1) requestAnimationFrame(animateBalloon); else b.remove();}
+requestAnimationFrame(animateBalloon);}
 setInterval(createBalloon,800);
+
+// ------------------ Floating Hearts ------------------
+function createHeart(){ const heart=document.createElement('div'); heart.className='heart'; heart.style.left=Math.random()*(W-20)+'px'; document.querySelector('.wrap').appendChild(heart); setTimeout(()=>heart.remove(),5000+Math.random()*2000);}
+setInterval(createHeart,600);
+
+// ------------------ Fireworks ------------------
+function createFirework() {
+  const wrap = document.querySelector('.wrap');
+  const colors = ['#FF3F8E','#04C2C9','#2E55C1','#FF9A00','#8AFF00'];
+  const count = 30; // particles per firework
+  const x = Math.random() * wrap.offsetWidth;
+  const y = Math.random() * wrap.offsetHeight / 2;
+
+  for (let i = 0; i < count; i++) {
+    const f = document.createElement('div');
+    f.className = 'firework';
+    f.style.width = f.style.height = (4 + Math.random() * 3) + 'px';
+    f.style.background = colors[Math.floor(Math.random() * colors.length)];
+    f.style.left = x + 'px';
+    f.style.top = y + 'px';
+    f.style.opacity = 1;
+    wrap.appendChild(f);
+
+    const angle = Math.random() * 2 * Math.PI;
+    const speed = 2 + Math.random() * 4;
+    let life = 50;
+    const anim = setInterval(() => {
+      const dx = Math.cos(angle) * speed;
+      const dy = Math.sin(angle) * speed;
+      const cx = parseFloat(f.style.left) + dx;
+      const cy = parseFloat(f.style.top) + dy;
+      f.style.left = cx + 'px';
+      f.style.top = cy + 'px';
+      f.style.opacity = life / 50;
+      life--;
+      if (life <= 0) {
+        clearInterval(anim);
+        f.remove();
+      }
+    }, 16);
+  }
+}
+
+// Trigger a firework every 2–3 seconds
+setInterval(createFirework, 2500);
+
 
 // Scroll fade-slide
 const faders=document.querySelectorAll('.fade-slide');
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('show'); });
-},{threshold:0.2});
+const observer=new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });},{threshold:0.2});
 faders.forEach(f=>observer.observe(f));
 
-// Confetti burst on RSVP
-function confettiBurst(x,y){
-  for(let i=0;i<30;i++){
-    const c=document.createElement('div');
-    c.className='confetti-piece';
-    c.style.left=x+'px'; 
-    c.style.top=y+'px';
-    c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    document.querySelector('.wrap').appendChild(c);
-    const angle=Math.random()*2*Math.PI;
-    const speed=2+Math.random()*3; 
-    let posX=0,posY=0;
-    const anim=setInterval(()=>{
-      posX+=Math.cos(angle)*speed; posY+=Math.sin(angle)*speed+0.5;
-      c.style.transform=`translate(${posX}px,${posY}px) rotate(${angle*50}rad)`;
-    },16);
-    setTimeout(()=>{clearInterval(anim); c.remove();},1500);
-  }
-}
+// RSVP confetti
 document.getElementById('rsvp').addEventListener('click', e=>{
-  const rect = e.target.getBoundingClientRect();
-  const wrapRect = document.querySelector('.wrap').getBoundingClientRect();
-  confettiBurst(rect.left-wrapRect.left+rect.width/2, rect.top-wrapRect.top+rect.height/2);
-  localStorage.setItem('rsvp_state','yes');
-  e.target.textContent='You RSVP’d ✓'; 
-  e.target.disabled=true;
-});
-document.getElementById('openMaps').addEventListener('click', ()=>{
-  window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('123 Riverside Ave, Phnom Penh, Cambodia'),'_blank');
-});
-document.getElementById('messageBtn').addEventListener('click', ()=>{
-  const mail = prompt('Type a short message to the host:');
-  if(mail){ 
-    const subject=encodeURIComponent("I'd like to join"); 
-    const body=encodeURIComponent(mail);
-    window.location.href=`mailto:your.email@example.com?subject=${subject}&body=${body}`;
+  const rect=e.target.getBoundingClientRect(); const wrapRect=document.querySelector('.wrap').getBoundingClientRect();
+  for(let i=0;i<30;i++){ const c=document.createElement('div'); c.className='confetti-piece'; c.style.left=rect.left-wrapRect.left+rect.width/2+'px'; c.style.top=rect.top-wrapRect.top+rect.height/2+'px'; c.style.background=colors[Math.floor(Math.random()*colors.length)]; document.querySelector('.wrap').appendChild(c);
+    const angle=Math.random()*2*Math.PI; const speed=2+Math.random()*3; let posX=0,posY=0; const anim=setInterval(()=>{ posX+=Math.cos(angle)*speed; posY+=Math.sin(angle)*speed+0.5; c.style.transform=`translate(${posX}px,${posY}px) rotate(${angle*50}rad)`; },16); setTimeout(()=>{clearInterval(anim); c.remove();},1500);
   }
+  e.target.textContent='You RSVP’d ✓'; e.target.disabled=true;
 });
+document.getElementById('openMaps').addEventListener('click', ()=>{ window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('123 Riverside Ave, Phnom Penh, Cambodia'),'_blank'); });
+document.getElementById('messageBtn').addEventListener('click', ()=>{ const mail=prompt('Type a short message to the host:'); if(mail){ window.location.href=`mailto:your.email@example.com?subject=${encodeURIComponent("I'd like to join")}&body=${encodeURIComponent(mail)}`; }});
 </script>
 </body>
 </html>

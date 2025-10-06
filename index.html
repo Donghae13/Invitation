@@ -40,6 +40,54 @@ h1 {
   color: #ff6f91;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
+
+
+/* Host Section */
+.host-people {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.host-people .person img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 5px solid #ff6f91;
+  object-fit: cover;
+  animation: glow 3s infinite alternate;
+}
+
+/* Guest Slideshow */
+.invite-people {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 50px;
+  background: #fff8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide {
+  display: none;
+  text-align: center;
+}
+.slide.active {
+  display: block;
+}
+.slide img {
+  width: 160px;
+  height: 160px;
+  border-radius: 15px;
+  object-fit: cover;
+  border: 3px solid #ff6f91;
+  animation: glow 3s infinite alternate;
+}
+
+/* Cards */
 .card {
   background: #ffffffcc;
   border-radius: var(--radius);
@@ -100,22 +148,19 @@ footer {margin-top: 24px; color: #6b7280; font-size: 14px;}
   pointer-events: none;
 }
 
-/* Smaller devices */
-@media(max-width: 1024px) { /* Tablet */
-  .wrap {
-    width: 98%;
-    padding: 30px;
-  }
+/* Responsive */
+@media(max-width: 1024px) {
+  .wrap {width: 98%; padding: 30px;}
+  .slide-track .person { width: 140px; }
+  .slide-track .person img { height: 130px; }
+  .host-people .person img { width: 140px; height: 140px; }
 }
-
-@media(max-width: 760px) { /* Mobile */
-  .wrap {
-    width: 100%;
-    padding: 20px;
-    margin: 20px auto;
-  }
+@media(max-width: 760px) {
+  .wrap {width: 100%; padding: 20px; margin: 20px auto;}
+  .slide-track .person { width: 100px; }
+  .slide-track .person img { height: 90px; }
+  .host-people .person img { width: 120px; height: 120px; }
 }
-
 </style>
 </head>
 <body>
@@ -125,9 +170,27 @@ footer {margin-top: 24px; color: #6b7280; font-size: 14px;}
 
   <header>
     <h1>លិខិតអញ្ជើញ</h1>
-    <p class="lead">Hello — I'm <strong>Hour sad</strong></p>
+    <p class="lead">Hello — I'm <strong>Hour Sad</strong></p>
   </header>
 
+  <!-- Host -->
+  <div class="host-people">
+    <div class="person">
+      <img src="host.jpg" alt="Host">
+      <p>Host: Hour Sad</p>
+    </div>
+  </div>
+
+   <!-- Guest Slideshow -->
+  <div class="invite-people">
+    <div class="slide active"><img src="images/photo_1_2025-10-06_14-19-04.jpg" alt="Guest 1"><p>Bro Viet</p></div>
+    <div class="slide"><img src="images/photo_2_2025-10-06_14-19-04.jpg" alt="Guest 2"><p>Sovann</p></div>
+    <div class="slide"><img src="images/photo_3_2025-10-06_14-19-04.jpg" alt="Guest 3"><p>Dara</p></div>
+    <div class="slide"><img src="images/photo_4_2025-10-06_14-19-04.jpg" alt="Guest 4"><p>Pisey</p></div>
+    <div class="slide"><img src="images/photo_5_2025-10-06_14-19-04.jpg" alt="Guest 5"><p>Rith</p></div>
+  </div>
+
+  <!-- Cards -->
   <div class="card fade-slide">
     <h2>សូមអញ្ជើញ</h2>
     <p>លិខិតអញ្ជើញចូលរួមពិសាអាហារសាមគ្គីអបអរសាទរលោក​ សេងហួ​​ ដែលជាសមាជិករបស់សមាគមន៍គ្រែស្នេហ៏ </p>
@@ -196,10 +259,9 @@ setInterval(createHeart,600);
 function createFirework() {
   const wrap = document.querySelector('.wrap');
   const colors = ['#FF3F8E','#04C2C9','#2E55C1','#FF9A00','#8AFF00'];
-  const count = 30; // particles per firework
+  const count = 30;
   const x = Math.random() * wrap.offsetWidth;
   const y = Math.random() * wrap.offsetHeight / 2;
-
   for (let i = 0; i < count; i++) {
     const f = document.createElement('div');
     f.className = 'firework';
@@ -209,7 +271,6 @@ function createFirework() {
     f.style.top = y + 'px';
     f.style.opacity = 1;
     wrap.appendChild(f);
-
     const angle = Math.random() * 2 * Math.PI;
     const speed = 2 + Math.random() * 4;
     let life = 50;
@@ -222,17 +283,33 @@ function createFirework() {
       f.style.top = cy + 'px';
       f.style.opacity = life / 50;
       life--;
-      if (life <= 0) {
-        clearInterval(anim);
-        f.remove();
-      }
+      if (life <= 0) { clearInterval(anim); f.remove(); }
     }, 16);
   }
 }
-
-// Trigger a firework every 2–3 seconds
 setInterval(createFirework, 2500);
 
+// ------------------ Guest Slideshow ------------------
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    let slides = document.getElementsByClassName("slide");
+    
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove('active');
+    }
+    
+    slideIndex++;
+    
+    if (slideIndex > slides.length) { slideIndex = 1; }
+    
+    if (slides.length > 0) {
+        slides[slideIndex - 1].classList.add('active');
+    }
+    
+    setTimeout(showSlides, 3000); 
+}
 
 // Scroll fade-slide
 const faders=document.querySelectorAll('.fade-slide');
@@ -250,5 +327,6 @@ document.getElementById('rsvp').addEventListener('click', e=>{
 document.getElementById('openMaps').addEventListener('click', ()=>{ window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('123 Riverside Ave, Phnom Penh, Cambodia'),'_blank'); });
 document.getElementById('messageBtn').addEventListener('click', ()=>{ const mail=prompt('Type a short message to the host:'); if(mail){ window.location.href=`mailto:your.email@example.com?subject=${encodeURIComponent("I'd like to join")}&body=${encodeURIComponent(mail)}`; }});
 </script>
+
 </body>
 </html>

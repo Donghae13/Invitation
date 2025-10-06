@@ -57,6 +57,89 @@ h1 {
   animation: glow 3s infinite alternate;
 }
 
+.couple-people {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  position: relative;
+  margin: 60px 0;
+}
+.couple-people .person img {
+  width: 180px;
+  height: 180px;
+  border-radius: 10%;
+  border: 4px solid #ff6f91;
+  object-fit: cover;
+}
+
+/* Couple Cards */
+.couple-card {
+  position: relative;
+  background: #ffffffcc;
+  border-radius: 20px;
+  border: 2px solid #511153;
+  padding: 24px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+  width: 260px;
+  text-align: center;
+  overflow: hidden;
+}
+
+
+/* Heart + confession line */
+.couple-heart {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.couple-heart .heart {
+  width: 40px;
+  height: 40px;
+  background: red;
+  transform: rotate(-45deg);
+  position: absolute;
+  animation: pulseHeart 1s infinite;
+}
+.couple-heart .heart::before,
+.couple-heart .heart::after {
+  content:"";
+  position:absolute;
+  width:40px;
+  height:40px;
+  background:red;
+  border-radius:50%;
+}
+.couple-heart .heart::before {top:-20px; left:0;}
+.couple-heart .heart::after {top:0; left:20px;}
+
+/* Connecting line */
+.couple-heart .love-line {
+  position: absolute;
+  width: 2px;
+  height: 100px;
+  background: pink;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scaleY(1);
+  transform-origin: bottom center;
+  animation: revealLine 1s forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes pulseHeart {
+  0%, 100% { transform: rotate(-45deg) scale(1); }
+  50% { transform: rotate(-45deg) scale(1.3); }
+}
+
+@keyframes revealLine {
+  0% { transform: translate(-50%, -50%) scaleY(0); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scaleY(1); opacity: 1; }
+}
 /* Guest Slideshow */
 .invite-people {
   position: relative;
@@ -87,14 +170,7 @@ h1 {
   animation: glow 3s infinite alternate;
 }
 
-/* Cards */
-.card {
-  background: #ffffffcc;
-  border-radius: var(--radius);
-  padding: 24px;
-  margin: 18px 0;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.06);
-}
+.card { background: #ffffffcc; border-radius: var(--radius); border: 2px; border-color: #511153 occupy= 76%; padding: 24px; margin: 18px 0; box-shadow: 0 12px 35px rgba(0,0,0,0.06); }
 .card.fade-slide {opacity:0; transform: translateY(30px); transition: all .8s ease-out;}
 .card.fade-slide.show {opacity:1; transform: translateY(0);}
 .cta {display:flex; justify-content:center; gap:12px; margin-top:16px;}
@@ -103,6 +179,29 @@ h1 {
 .btn.primary {background: var(--accent-2); color:white; border:0;}
 .map {width:100%; height:220px; border-radius:14px; overflow:hidden; border:1px solid rgba(2,6,23,0.04); margin-top:10px;}
 footer {margin-top: 24px; color: #6b7280; font-size: 14px;}
+
+
+/* Flower corner decoration */
+.flower {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  opacity: 0.9;
+  animation: floatFlower 4s ease-in-out infinite alternate;
+}
+
+.flower-tl { top: -15px; left: -15px; transform: rotate(-10deg); }
+.flower-tr { top: -15px; right: -15px; transform: rotate(10deg); }
+.flower-bl { bottom: -15px; left: -15px; transform: rotate(5deg); }
+.flower-br { bottom: -15px; right: -15px; transform: rotate(-5deg); }
+
+/* Gentle floating animation */
+@keyframes floatFlower {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(5deg); }
+}
+
 
 /* Balloons */
 .balloon {
@@ -160,6 +259,10 @@ footer {margin-top: 24px; color: #6b7280; font-size: 14px;}
   .slide-track .person { width: 100px; }
   .slide-track .person img { height: 90px; }
   .host-people .person img { width: 120px; height: 120px; }
+  .couple-people {flex-direction: column;gap: 20px;}
+  .couple-card {width: 90%;}
+  .couple-card .person img {width: 100%;max-width: 200px;}
+  .couple-heart {width: 60px;height: 60px;}
 }
 </style>
 </head>
@@ -176,12 +279,47 @@ footer {margin-top: 24px; color: #6b7280; font-size: 14px;}
   <!-- Host -->
   <div class="host-people">
     <div class="person">
-      <img src="host.jpg" alt="Host">
-      <p>Host: Hour Sad</p>
+      <img src="images/photo_2025-10-06_18-10-55.jpg" alt="Host">
+      <h3>មេបារ: Hour Sad</h3>
     </div>
   </div>
 
+ <!-- Couple Section -->
+<div class="couple-people">
+  <div class="couple-card">
+    <img src="images/flowerTL1.png" alt="" class="flower flower-tl">
+    <img src="images/flowerTR1.png" alt="" class="flower flower-tr">
+    <img src="images/flowerBL1.png" alt="" class="flower flower-bl">
+    <img src="images/flowerBR1.png" alt="" class="flower flower-br">
+
+    <div class="person">
+      <img src="images/cp1.jpg" alt="Couple 1">
+      <h3>វន់ផាត សូវៀត</h3>
+    </div>
+  </div>
+
+  <!-- Heart/confession animation -->
+  <div class="couple-heart">
+    <div class="heart"></div>
+    <div class="love-line"></div>
+  </div>
+
+  <div class="couple-card">
+    <img src="images/flowerTL1.png" alt="" class="flower flower-tl">
+    <img src="images/flowerTR1.png" alt="" class="flower flower-tr">
+    <img src="images/flowerBL1.png" alt="" class="flower flower-bl">
+    <img src="images/flowerBR1.png" alt="" class="flower flower-br">
+
+    <div class="person">
+      <img src="images/cp2.jpg" alt="Couple 2">
+      <h3>Mzz.Kaka</h3>
+    </div>
+  </div>
+</div>
+
+
    <!-- Guest Slideshow -->
+  <h1>ភ្ញៀវ</h1>
   <div class="invite-people">
     <div class="slide active"><img src="images/photo_1_2025-10-06_14-19-04.jpg" alt="Guest 1"><p>Bro Viet</p></div>
     <div class="slide"><img src="images/photo_2_2025-10-06_14-19-04.jpg" alt="Guest 2"><p>Sovann</p></div>
